@@ -9,16 +9,38 @@ body {
     user-select: none;
 }
 
+article {
+    padding-top: 4px;
+    padding-bottom: 20px;
+    margin: 10px 100px 30px;
+}
+
 p {
     padding-right: 5px;
     padding-left: 5px;
     font-size: 20px;
 }
 
-article {
-    padding-top: 4px;
-    padding-bottom: 20px;
-    margin: 10px 100px 30px;
+button {
+    height: 30px;
+    width: 200px;
+}
+
+.normalButtonText, .visitedButtonText, .missedButtonText {
+    color: black;
+    font-size: 20px;
+}
+
+.normalButtonText {
+
+}
+
+.visitedButtonText {
+    color: #00af00;
+}
+
+.missedButtonText {
+    color: red;
 }
 
 div {
