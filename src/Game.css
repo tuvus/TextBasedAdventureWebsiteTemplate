@@ -1,0 +1,58 @@
+body {
+    background-color: black;
+    color: white;
+    text-align: center;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+p {
+    padding-right: 5px;
+    padding-left: 5px;
+    font-size: 20px;
+}
+
+article {
+    padding-top: 4px;
+    padding-bottom: 20px;
+    margin: 10px 100px 30px;
+}
+
+div {
+    margin-bottom: 10px;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    background-color: gray;
+    width: 100%;
+    left: 0;
+    height: 45px;
+}
+
+.topBarText {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+footer {
+    position: fixed;
+    background-color: gray;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    height: 40px;
+}
+
+.footerText {
+    font-size: 30px;
+    vertical-align: center;
+    margin-left: 30px;
+    margin-right: 30px;
+    font-weight: bold;
+}
