@@ -44,6 +44,7 @@ class SolarSystem {
     TravelInSolarSystem(object) {
         if (object.visited || scienceShip.GetCurrentEventChain() != null)
             return;
+
         MinorTravelEventChain.GenerateMinorTravelEventChain(this, object);
     }
 
@@ -73,15 +74,26 @@ class Object {
         this.solarSystem.AddObject(this);
     }
 
-    goTo() {
+    goTowards() {
+        if (this.visited == false && this.solarSystem == scienceShip.GetCurrentSolarSystem()) {
+            if (this.button.classList.contains("normalButtonText")) {
+                this.button.classList.remove("normalButtonText");
+                this.button.classList.add("inprogressButtonText");
+            } else {
+                throw "Trying to highlight a button as inprogress when it was already inprogress, missed or visited!";
+            }
+        }
+    }
+
+    arriveAt() {
         if (this.visited == false && this.solarSystem == scienceShip.GetCurrentSolarSystem()) {
             this.visited = true;
             scienceShip.AddScience(this.science);
-            if (this.button.classList.contains("normalButtonText")) {
-                this.button.classList.remove("normalButtonText");
+            if (this.button.classList.contains("inprogressButtonText")) {
+                this.button.classList.remove("inprogressButtonText");
                 this.button.classList.add("visitedButtonText");
             } else {
-                throw "Trying to highlight a button as green when it was already highlighted or missed!";
+                throw "Trying to highlight a button as visited when it was already inprogress, missed or visited!";
             }
             return true;
         }
@@ -96,6 +108,9 @@ class Object {
         if (this.visited == false) {
             if (this.button.classList.contains("normalButtonText")) {
                 this.button.classList.remove("normalButtonText");
+                this.button.classList.add("missedButtonText");
+            } else if (this.button.classList.contains("inprogressButtonText")) {
+                this.button.classList.remove("inprogressButtonText");
                 this.button.classList.add("missedButtonText");
             }
         }
@@ -136,8 +151,8 @@ class Star extends Object {
         this.description = description;
     }
 
-    goTo() {
-        if (super.goTo()) {
+    arriveAt() {
+        if (super.arriveAt()) {
             ObjectEventChain.GenerateStarEventChain(this);
         }
     }
@@ -201,8 +216,8 @@ class Planet extends Object {
         this.organisms = organisms;
     }
 
-    goTo() {
-        if (super.goTo()) {
+    arriveAt() {
+        if (super.arriveAt()) {
             ObjectEventChain.GeneratePlanetEventChain(this);
         }
     }
@@ -239,8 +254,8 @@ class Asteroid extends Object {
         super(name, type, description, distance, science, solarSystem);
     }
 
-    goTo() {
-        if (super.goTo()) {
+    arriveAt() {
+        if (super.arriveAt()) {
             ObjectEventChain.GenerateAsteroidEventChain(this);
         }
     }
@@ -445,7 +460,6 @@ class ScienceShip extends Ship {
     SetCurrentEventChain(newEventChain) {
         this.currentEventChain = newEventChain;
     }
-
 
     AddObservingProbe() {
         this.observingProbes += 1;
@@ -1067,6 +1081,7 @@ class MajorTravelEventChain extends EventChain {
 
 class MinorTravelEventChain extends EventChain {
     static GenerateMinorTravelEventChain(solarSystem, object) {
+        object.goTowards();
         var eventChain = new MinorTravelEventChain(true);
         eventChain.nextObject = object
         scienceShip.AddFuel(-object.distance);
@@ -1365,7 +1380,7 @@ class TextController {
         this.CreateNewExploreTextAbortController();
         this.exploreText.addEventListener("click", function () {
             textController.AbortExploreText();
-            nextObject.goTo();
+            nextObject.arriveAt();
         }, {
             signal: this.GetExploreTextAbortController().signal
         });
