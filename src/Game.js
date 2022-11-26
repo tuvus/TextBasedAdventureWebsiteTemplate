@@ -1,4 +1,4 @@
-// noinspection UnnecessaryReturnStatementJS
+// noinspection UnnecessaryReturnStatementJS,JSUnusedGlobalSymbols,JSUnusedLocalSymbols,DuplicatedCode
 
 class SolarSystem {
     static CreateNewSolarSystem() {
@@ -748,7 +748,7 @@ class EventChain {
                                         if (scienceShip.AddFuel(-fuel)) {
                                             textController.AddEventText("Your computers don't even wait for your orders, they gun the engines. what your ship lacks in armor, it makes up with speed. The fighters run out out their fuel reserves and you make it away using up " + fuel + " units of fuel.")
                                             textController.CreateContinueText("Phew!", eventChain, function () {
-                                                textController.AddEventText("With the encounter over your ship runs a self diagnosis check. Integrity at " + scienceShip.GetShipIntegrity() + "%. Fuel at " + scienceShip.GetShipFuel() + ".");
+                                                textController.AddEventText("With the encounter over your ship runs a self diagnosis check. Integrity at " + scienceShip.GetShipIntegrity() + "%. Fuel at " + scienceShip.GetFuel() + ".");
                                                 scienceShip.GetCurrentEventChain().EndEventChain();
                                             });
                                         } else {
@@ -1087,7 +1087,6 @@ class MinorTravelEventChain extends EventChain {
         scienceShip.AddFuel(-object.distance);
         scienceShip.AddDays(object.distance);
         let randInt = GetRandomInt(-10, 1);
-        randInt = 2;
         if (randInt < -11) {
             textController.NextLine();
             textController.AddEventText("You decide to travel towards " + object.name + " for " + object.distance + " days.");
@@ -1175,7 +1174,7 @@ class ObjectEventChain extends EventChain {
                             textController.AddEventText("It would be too risky to collect the gas. Instead your computers log the properties of the gas and add it to the database.");
                             scienceShip.GetCurrentEventChain().EndEventChain();
                         });
-                        let alertTextButton = CreateDefaultButton("Continue on", eventChain.GetCurrentEvent(), function () {
+                        let alertTextButton = textController.CreateDefaultButton("Continue on", eventChain.GetCurrentEvent(), function () {
                             scienceShip.GetCurrentEvent().PassEvent();
                             scienceShip.GetCurrentEventChain().EndEventChain();
                         });
@@ -1188,7 +1187,7 @@ class ObjectEventChain extends EventChain {
                     textController.AddEventText("The computers analyze the data as much as then can before you continue on.");
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 });
-                let continueOn = CreateDefaultButton("ContinueOn", eventChain.GetCurrentEvent(), function () {
+                let continueOn = textController.CreateDefaultButton("ContinueOn", eventChain.GetCurrentEvent(), function () {
                     scienceShip.GetCurrentEvent().PassEvent();
                     textController.AddEventText("You leave the anomaly without investigating farther.");
                     scienceShip.GetCurrentEventChain().EndEventChain();
@@ -1259,28 +1258,23 @@ class ObjectEventChain extends EventChain {
             scienceShip.GetCurrentEvent().PassEvent();
             returnProbe.style.color = "green";
             scienceShip.AddFuel(-GetRandomInt(1, 2));
-            let eventText;
             const randomNumber = GetRandomInt(0, 10);
             if (randomNumber <= 7) {
-                eventText = document.createTextNode("The probe successfully returns from the " + object.description + " " + object.type + ". You refuel and continue on with your mission.");
+                textController.AddEventText("The probe successfully returns from the " + object.description + " " + object.type + ". You refuel and continue on with your mission.");
 
             } else if (randomNumber === 8) {
                 scienceShip.AddScience(0, 3);
-                eventText = document.createTextNode("As your probe returns, it is hit by a micro asteroid and loses all functionality. At least you got some data on it's collision.");
+                textController.AddEventText("As your probe returns, it is hit by a micro asteroid and loses all functionality. At least you got some data on it's collision.");
             } else {
                 scienceShip.AddShipIntegrity(-GetRandomInt(4, 8));
-                eventText = document.createTextNode("As the probe nears the ship from the " + object.type + " it loses control and slams into the ship, destroying the probe and some of the ship in the process");
+                textController.AddEventText("As the probe nears the ship from the " + object.type + " it loses control and slams into the ship, destroying the probe and some of the ship in the process");
             }
-            storyElement.appendChild(eventText);
-            UpdateUIText();
             scienceShip.SetCurrentEventChain(null);
         })
         continueObserving.innerText = "Keep probe observing the " + object.type;
         continueObserving.addEventListener("click", function () {
 
         })
-        storyElement.appendChild(eventText);
-        UpdateUIText();
         scienceShip.SetCurrentEventChain(null);
     }
 
@@ -1303,7 +1297,7 @@ class TextController {
 
     UpdateUIText() {
         this.topBarText.innerHTML = "Crew: " + scienceShip.GetCrew() + " | ShipIntegrity: " + scienceShip.GetShipIntegrity() + "% | ShipFuel: " + scienceShip.GetFuel() + "/" + scienceShip.GetMaxFuel() + " | Science: " + scienceShip.GetScience() + " | Day: " + scienceShip.GetDays();
-        let place = "";
+        let place;
         if (scienceShip.GetCurrentSolarSystem() != null) {
             place = scienceShip.GetCurrentSolarSystem().name;
         } else {
