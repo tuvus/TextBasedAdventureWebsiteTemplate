@@ -1,9 +1,11 @@
+// noinspection UnnecessaryReturnStatementJS
+
 class SolarSystem {
     static CreateNewSolarSystem() {
         const objectCount = GetRandomInt(1, 9);
         const newSolarSystem = new SolarSystem("S" + GetId(), GetRandomInt(3, 15));
         Star.CreateStar(newSolarSystem);
-        for (var i = 1; i < objectCount; i++) {
+        for (let i = 1; i < objectCount; i++) {
             if (GetRandomInt(0, 100) < 60) {
                 Asteroid.CreateAsteroid(newSolarSystem);
             } else if (GetRandomInt(0, 100) < 20) {
@@ -56,12 +58,13 @@ class SolarSystem {
         this.solarSystemEvent.SetCurrentEventChain();
         this.solarSystemEvent.PassEvent();
         scienceShip.SetCurrentEventChain(null);
-        /*       for (var i = 0; i < this.objects.length; i++) {
+        /*       for (let i = 0; i < this.objects.length; i++) {
                  this.objects[i].missedObject();
               } */
     }
 }
 
+// noinspection JSUnusedGlobalSymbols
 class Object {
     constructor(name, type, description, distance, science, solarSystem) {
         this.name = name;
@@ -75,7 +78,7 @@ class Object {
     }
 
     goTowards() {
-        if (this.visited == false && this.solarSystem == scienceShip.GetCurrentSolarSystem()) {
+        if (this.visited === false && this.solarSystem === scienceShip.GetCurrentSolarSystem()) {
             if (this.button.classList.contains("normalButtonText")) {
                 this.button.classList.remove("normalButtonText");
                 this.button.classList.add("inprogressButtonText");
@@ -86,7 +89,7 @@ class Object {
     }
 
     arriveAt() {
-        if (this.visited == false && this.solarSystem == scienceShip.GetCurrentSolarSystem()) {
+        if (this.visited === false && this.solarSystem === scienceShip.GetCurrentSolarSystem()) {
             this.visited = true;
             scienceShip.AddScience(this.science);
             if (this.button.classList.contains("inprogressButtonText")) {
@@ -105,7 +108,7 @@ class Object {
     }
 
     missedObject() {
-        if (this.visited == false) {
+        if (this.visited === false) {
             if (this.button.classList.contains("normalButtonText")) {
                 this.button.classList.remove("normalButtonText");
                 this.button.classList.add("missedButtonText");
@@ -123,27 +126,26 @@ class Object {
 
 class Star extends Object {
     static CreateStar(solarSystem) {
-        var name;
-        var description;
-        var randomNumber = GetRandomInt(0, 5);
-        if (randomNumber == 0) {
+        let name;
+        let description;
+        const randomNumber = GetRandomInt(0, 5);
+        if (randomNumber === 0) {
             name = "BlueStar";
             description = "blue";
-        } else if (randomNumber == 1) {
+        } else if (randomNumber === 1) {
             name = "RedStar";
             description = "red";
-        } else if (randomNumber == 2) {
+        } else if (randomNumber === 2) {
             name = "NeutronStar";
             description = "blue";
-        } else if (randomNumber == 3) {
+        } else if (randomNumber === 3) {
             name = "YellowStar";
             description = "yellow";
-        } else if (randomNumber == 4) {
+        } else if (randomNumber === 4) {
             name = "RedGiant";
             description = "red";
         }
-        const star = new Star(name + GetId(), "star", description, GetRandomInt(2, 6), GetRandomInt(1, 8), solarSystem);
-        return star;
+        return new Star(name + GetId(), "star", description, GetRandomInt(2, 6), GetRandomInt(1, 8), solarSystem);
     }
 
     constructor(name, type, description, distance, science, solarSystem) {
@@ -160,13 +162,13 @@ class Star extends Object {
 
 class Planet extends Object {
     static CreatePlanet(solarSystem) {
-        var planet = null;
-        var type;
-        var name;
-        var description;
-        var surfaceDescription;
-        var atmosphere = 0;
-        var organisms = 0;
+        let planet;
+        let type;
+        let name;
+        let description;
+        let surfaceDescription;
+        let atmosphere = 0;
+        let organisms = 0;
         if (Math.random() > 0.5) {
             atmosphere = Math.random();
         }
@@ -184,16 +186,16 @@ class Planet extends Object {
             } else if (Math.random() > 0.95) {
                 organisms = Math.random();
             }
-            var randomNumber = GetRandomInt(0, 5);
-            if (randomNumber == 0) {
+            const randomNumber = GetRandomInt(0, 5);
+            if (randomNumber === 0) {
                 type = "Rock";
                 description = "gray";
                 surfaceDescription = "rocky";
-            } else if (randomNumber == 1) {
+            } else if (randomNumber === 1) {
                 type = "Ice"
                 description = "blue";
                 surfaceDescription = "cold, frozen";
-            } else if (randomNumber == 2) {
+            } else if (randomNumber === 2) {
                 type = "Terran";
                 description = "blue and green";
                 surfaceDescription = "vibrant";
@@ -225,9 +227,9 @@ class Planet extends Object {
 
 class Asteroid extends Object {
     static CreateAsteroid(solarSystem) {
-        var name;
-        var description;
-        var randomNumber = GetRandomInt(0, 10);
+        let name;
+        let description;
+        const randomNumber = GetRandomInt(0, 10);
         if (randomNumber <= 6) {
             name = "ChloriteAsteroid"
             description = "earthy";
@@ -238,16 +240,15 @@ class Asteroid extends Object {
             name = "IronAsteroid";
             description = "metallic";
         }
-        var asteroid = new Asteroid(name + GetId(), "asteroid", description, GetRandomInt(2, 5), GetRandomInt(1, 10), solarSystem);
+        return new Asteroid(name + GetId(), "asteroid", description, GetRandomInt(2, 5), GetRandomInt(1, 10), solarSystem);
     }
 
     static CreateComet(solarSystem) {
-        var name;
-        var description;
-        var randomNumber = GetRandomInt(0, 10);
+        let name;
+        let description;
         name = "Comet";
         description = "cold, frozen";
-        var comet = new Asteroid(name + GetId(), "comet", description, GetRandomInt(2, 8), GetRandomInt(1, 10), solarSystem);
+        return new Asteroid(name + GetId(), "comet", description, GetRandomInt(2, 8), GetRandomInt(1, 10), solarSystem);
     }
 
     constructor(name, type, description, distance, science, solarSystem) {
@@ -263,8 +264,8 @@ class Asteroid extends Object {
 
 class Ship {
     static GenerateShip(setArmedValue = 0, armed = false) {
-        var randInt = GetRandomInt(15);
-        var color = "";
+        const randInt = GetRandomInt(15);
+        let color = "";
         if (randInt < 4) {
             color = "black/gray";
         } else if (randInt < 5) {
@@ -278,9 +279,9 @@ class Ship {
         } else if (randInt < 14) {
             color = "dark red";
         }
-        var armedValue = GetRandomInt(-4, 10) / 10;
-        var armedDesc = "";
-        var attitude = GetRandomInt(-100, 100) / 100;
+        let armedValue = GetRandomInt(-4, 10) / 10;
+        let armedDesc;
+        const attitude = GetRandomInt(-100, 100) / 100;
         if (armedValue < 0) {
             armedValue = 0;
             armedDesc = "unarmed";
@@ -293,8 +294,8 @@ class Ship {
         }
         if (armed)
             armedValue = setArmedValue;
-        var size = GetRandomInt(0, 100) / 100;
-        var sizeDesc = "";
+        const size = GetRandomInt(0, 100) / 100;
+        let sizeDesc = "";
         if (size < 30) {
             sizeDesc = "small";
         } else if (size < 70) {
@@ -415,7 +416,7 @@ class ScienceShip extends Ship {
     AddShipIntegrity(value) {
         this.shipIntegrity += value;
         if (this.shipIntegrity < 0) {
-            thsi.sipIntegrity = 0;
+            this.sipIntegrity = 0;
             textController.UpdateUIText();
             return false;
         }
@@ -519,110 +520,110 @@ class EventChain {
     }
 
     static GetContinueToNextText(nextName) {
-        var randInt = GetRandomInt(0, 3);
-        if (randInt == 0) {
+        const randInt = GetRandomInt(0, 3);
+        if (randInt === 0) {
             return "Continue to " + nextName;
         }
-        if (randInt == 1) {
+        if (randInt === 1) {
             return "Continue on to " + nextName;
         }
-        if (randInt == 2) {
+        if (randInt === 2) {
             return "Continue on";
         }
     }
 
     static GenerateShipEvent(intro, continueText, eventChain) {
-        var ship = Ship.GenerateShip();
+        const ship = Ship.GenerateShip();
         if (ship.attitude <= -0.7) {
             if (ship.armedValue <= 0) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     eventChain.AddEventToChain(new Event(), true);
                     textController.AddEventText(intro + " You find some weird scans of a lone ship. Should you approach the ship? Scan the ship? Or spend more fuel on avoiding them?");
                     textController.NextLine();
-                    var aproachShip = textController.CreateButton("Approach ship", eventChain.GetCurrentEvent(), function () {
-                        scienceShip.GetCurrentEvent().HighlightButton(aproachShip, true);
+                    let approachShip = textController.CreateButton("Approach ship", eventChain.GetCurrentEvent(), function () {
+                        scienceShip.GetCurrentEvent().HighlightButton(approachShip, true);
                         textController.NextLine();
                         textController.AddEventText("You approach the " + ship.sizeDesc + " ship and find that it is a destroyed ship.");
                         textController.NextLine();
                         eventChain.AddEventToChain(new Event(), true);
-                        var scanShip2 = textController.CreateButton("ScanShip", eventChain.GetCurrentEvent(), function () {
-                            scienceShip.GetCurrentEvent().HighlightButton(scanShip2, true);
+                        let scanShip = textController.CreateButton("ScanShip", eventChain.GetCurrentEvent(), function () {
+                            scienceShip.GetCurrentEvent().HighlightButton(scanShip, true);
                             textController.NextLine();
-                            var randInt3 = GetRandomInt(0, 1);
-                            if (randInt3 == 0) {
-                                var useFuel3 = GetRandomInt(12, 32);
-                                scienceShip.AddFuel(-useFuel3);
-                                textController.AddEventText("You scan the ship and unexpectedly the ship's communications fire up and try to hack into your ship's computers. It unsuccessfully sabotages your ship but manages to waste " + useFuel3 + " units of fuel before it could be blocked. On the plus side it's hacking procedure gave you a lot of data to work with.");
+                            let randInt = GetRandomInt(0, 1);
+                            if (randInt === 0) {
+                                let useFuel = GetRandomInt(12, 32);
+                                scienceShip.AddFuel(-useFuel);
+                                textController.AddEventText("You scan the ship and unexpectedly the ship's communications fire up and try to hack into your ship's computers. It unsuccessfully sabotages your ship but manages to waste " + useFuel + " units of fuel before it could be blocked. On the plus side it's hacking procedure gave you a lot of data to work with.");
                                 scienceShip.AddScience(6, 12);
                                 scienceShip.GetCurrentEventChain().EndEventChain();
                             }
                         });
-                        var leaveShip2 = textController.CreateDefaultButton("Continue", eventChain.GetCurrentEvent(), function () {
+                        let leaveShip = textController.CreateDefaultButton("Continue", eventChain.GetCurrentEvent(), function () {
                             scienceShip.GetCurrentEvent().PassEvent();
                             textController.NextLine();
                             textController.AddEventText("Although the ship is destroyed it could still have some functionality. You decide to continue on without investigating farther.");
                             scienceShip.GetCurrentEventChain().EndEventChain();
                         });
                     });
-                    var scanShip = textController.CreateButton("Scan ship", eventChain.GetCurrentEvent(), function () {
+                    let scanShip = textController.CreateButton("Scan ship", eventChain.GetCurrentEvent(), function () {
                         scienceShip.GetCurrentEvent().HighlightButton(scanShip, true);
                         textController.NextLine();
                         textController.AddEventText("You scan the ship from afar and find that it was in hibernation. Your computers found a tiny anomaly onboard the ship and immediately stopped processing the information that they received from the scanners. Instead they decide to display the information to you in order to prevent potential corruption from the data. Will you spend the time to search the data for yourself or will you risk the computational power of your onboard computers?");
                         textController.NextLine();
                         eventChain.AddEventToChain(new Event(), true);
-                        var searchThroughData2 = textController.CreateButton("ManuallySearch", eventChain.GetCurrentEvent(), function () {
-                            scienceShip.GetCurrentEvent().HighlightButton(searchThroughData2, true);
+                        let searchThroughData = textController.CreateButton("ManuallySearch", eventChain.GetCurrentEvent(), function () {
+                            scienceShip.GetCurrentEvent().HighlightButton(searchThroughData, true);
                             textController.NextLine();
-                            var days2 = GetRandomInt(4, 15);
-                            var science2 = GetRandomInt(4, 9);
-                            scienceShip.AddScience(science2);
-                            scienceShip.AddDays(days2);
-                            textController.AddEventText("You spend " + days2 + " days manualy searching through the data with only the help of some simple algorithms that you programed useing a dumb computer. Although the computing power of your main computers would have greatly increased your speed on deciphering the data, you find that it is most likely some sort of a virus meant to protect the scout ship. You manually log what you can without the computer's help and gather" + science2 + " science.");
+                            let days = GetRandomInt(4, 15);
+                            let science = GetRandomInt(4, 9);
+                            scienceShip.AddScience(science);
+                            scienceShip.AddDays(days);
+                            textController.AddEventText("You spend " + days + " days manually searching through the data with only the help of some simple algorithms that you programed using a dumb computer. Although the computing power of your main computers would have greatly increased your speed on deciphering the data, you find that it is most likely some sort of a virus meant to protect the scout ship. You manually log what you can without the computer's help and gather" + science + " science.");
                             textController.CreateContinueText("Process data", eventChain, function () {
                                 textController.NextLine();
-                                var randInt3 = GetRandomInt(0, 3);
-                                if (randInt3 == 0) {
+                                let randInt = GetRandomInt(0, 3);
+                                if (randInt === 0) {
                                     textController.AddEventText("You feed your onboard computers the information you deciphered. They find that the most logical conclusion is that it was a defense mechanism from an abandoned embassy ship traveling through space.");
-                                } else if (randInt3 == 1) {
+                                } else if (randInt === 1) {
                                     textController.AddEventText("You feed your onboard computers the information you deciphered. They find that the most logical conclusion is that it was an abandoned survey ship on its way to the next solar system");
-                                } else if (randInt3 == 2) {
+                                } else if (randInt === 2) {
                                     textController.AddEventText("You feed your onboard computers the information you deciphered. They find that the most logical conclusion is that it was an important civilian ship that must have missed its destination.");
                                 }
                                 scienceShip.GetCurrentEventChain().EndEventChain();
                             });
-                        })
-                        var reconnectComputers2 = textController.CreateButton("UseOnboardComputers", eventChain.GetCurrentEvent(), function () {
-                            scienceShip.GetCurrentEvent().HighlightButton(reconnectComputers2, true);
+                        });
+                        let reconnectComputers = textController.CreateButton("UseOnboardComputers", eventChain.GetCurrentEvent(), function () {
+                            scienceShip.GetCurrentEvent().HighlightButton(reconnectComputers, true);
                             textController.NextLine();
-                            var science2 = -GetRandomInt(18, 29);
-                            scienceShip.AddScience(science2);
-                            textController.AddEventText("You reconnect the computers to the scanners. A fraction of a second after they start processing the data one of the secondary computers blocks the connection to the scanners. After a full diagnosis check you find that while analyzing the data that was transfered the analysis computer was deleting your data banks instead. In a second all of your data would have been gone. However due to the safety checks from one of your secondary computers you only lost " + science2 + " science.");
+                            let science = -GetRandomInt(18, 29);
+                            scienceShip.AddScience(science);
+                            textController.AddEventText("You reconnect the computers to the scanners. A fraction of a second after they start processing the data one of the secondary computers blocks the connection to the scanners. After a full diagnosis check you find that while analyzing the data that was transferred the analysis computer was deleting your data banks instead. In a second all of your data would have been gone. However due to the safety checks from one of your secondary computers you only lost " + science + " science.");
                             scienceShip.GetCurrentEventChain().EndEventChain();
                         });
-                        var continueOnButton2 = textController.CreateDefaultButton("Leave", eventChain.GetCurrentEvent(), function () {
+                        let continueOnButton = textController.CreateDefaultButton("Leave", eventChain.GetCurrentEvent(), function () {
                             scienceShip.GetCurrentEvent().PassEvent();
                             textController.NextLine();
                             textController.AddEventText("Anything could be lurking within that data, it would take too long to decipher. So you make sure to block all communications and leave the ship.");
                             scienceShip.GetCurrentEventChain().EndEventChain();
                         });
                     });
-                    var avoidShipButton = textController.CreateButton("Avoid ship", eventChain.GetCurrentEvent(), function () {
+                    let avoidShipButton = textController.CreateButton("Avoid ship", eventChain.GetCurrentEvent(), function () {
                         scienceShip.GetCurrentEvent().HighlightButton(avoidShipButton, true);
                         textController.NextLine();
-                        var fuel = GetRandomInt(5, 12);
+                        let fuel = GetRandomInt(5, 12);
                         scienceShip.AddFuel(-fuel);
-                        var randInt2 = GetRandomInt(0, 3);
-                        if (randInt2 == 0) {
+                        let randInt = GetRandomInt(0, 3);
+                        if (randInt === 0) {
                             textController.AddEventText("A lone ship is a dangerous ship. You spend " + fuel + " extra fuel to avoid the ship.");
-                        } else if (randInt2 == 1) {
+                        } else if (randInt === 1) {
                             textController.AddEventText("After confronting your options it appears that the ship might not be friendly after all. You spend " + fuel + " extra fuel to avoid the ship.");
-                        } else if (randInt2 == 2) {
+                        } else if (randInt === 2) {
                             textController.AddEventText("Expecting the ship to be hostile, you spend " + fuel + " extra fuel to avoid the ship.");
                         }
                         scienceShip.GetCurrentEventChain().EndEventChain();
                     });
-                    var continueOnButton = textController.CreateDefaultButton(continueText, eventChain.GetCurrentEvent(), function () {
+                    let continueOnButton = textController.CreateDefaultButton(continueText, eventChain.GetCurrentEvent(), function () {
                         scienceShip.GetCurrentEvent().PassEvent();
                         textController.NextLine();
                         textController.AddEventText("You continue on without communicating with the ship.");
@@ -632,20 +633,20 @@ class EventChain {
                 return;
             }
             if (ship.armedValue <= 0.3) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     eventChain.AddEventToChain(new Event(), true);
                     textController.AddEventText("While on route to the next solar system your computers blare multiple warnings of an unknown ship quickly closing in. The ship does not send any communications, it could very well be hostile.");
-                    var aproachShip = textController.CreateButton("Approach ship", eventChain.GetCurrentEvent(), function () {
-                        scienceShip.GetCurrentEvent().HighlightButton(aproachShip, true);
+                    let approachShip = textController.CreateButton("Approach ship", eventChain.GetCurrentEvent(), function () {
+                        scienceShip.GetCurrentEvent().HighlightButton(approachShip, true);
                         textController.NextLine();
                         textController.AddEventText("The ship comes at you at such a speed that your computers calculate that there is no need to change course. So why not save a little fuel?");
                         textController.CreateContinueText("Wait", eventChain, function () {
                             textController.NextLine();
-                            textController.AddEventText("As your time until approach decreases the ship releases a cloud of derbs. Once the cloud is released the ship maneuvers out of the cloud and adjusts its velocity to miss you. Most of the derbs however collide with your ship.");
+                            textController.AddEventText("As your time until approach decreases the ship releases a cloud of debris. Once the cloud is released the ship maneuvers out of the cloud and adjusts its velocity to miss you. Most of the debris however collide with your ship.");
                             textController.CreateContinueText("Uh oh", eventChain, function () {
                                 textController.NextLine();
-                                var damage = GetRandomInt(15, 52);
+                                let damage = GetRandomInt(15, 52);
                                 scienceShip.AddShipIntegrity(-damage);
                                 textController.AddEventText("After the collision your ship increases its velocity to discourage another pass from the hostile ship. Luckily it decides against continuing it's assault and leaves.");
                                 textController.NextLine();
@@ -654,20 +655,20 @@ class EventChain {
                             });
                         });
                     });
-                    var scanShip = textController.CreateButton("Scan ship", eventChain.GetCurrentEvent(), function () {
+                    let scanShip = textController.CreateButton("Scan ship", eventChain.GetCurrentEvent(), function () {
                         scienceShip.GetCurrentEvent().HighlightButton(scanShip, true);
-                        var fuelTaken = GetRandomInt(2, 8);
+                        let fuelTaken = GetRandomInt(2, 8);
                         scienceShip.AddFuel(-fuelTaken);
                         textController.AddEventText("Your computers run a quick scan of the ship and find that it is not armed with your conventional weapons. However they could prove just as dangerous. The computers then calculate a series of maneuvers that will prevent the ship from being able to hit your ship using a total of " + fuelTaken + " fuel.");
                         scienceShip.GetCurrentEventChain().EndEventChain();
                     });
-                    var avoidShip = textController.CreateButton("Avoid ship", eventChain.GetCurrentEvent(), function () {
+                    let avoidShip = textController.CreateButton("Avoid ship", eventChain.GetCurrentEvent(), function () {
                         scienceShip.GetCurrentEvent().HighlightButton(avoidShip, true);
-                        var fuelUsed = GetRandomInt(3, 9)
+                        let fuelUsed = GetRandomInt(3, 9);
                         textController.AddEventText("Your computers calculate a simple maneuver that can prevent the ship from closing the distance. The ship expends " + fuelUsed + " fuel executing the maneuver.s");
                         scienceShip.GetCurrentEventChain().EndEventChain();
                     });
-                    var continueOn = textController.CreateDefaultButton(continueText, eventChain.GetCurrentEvent(), function () {
+                    let continueOn = textController.CreateDefaultButton(continueText, eventChain.GetCurrentEvent(), function () {
                         scienceShip.GetCurrentEvent().PassEvent();
                         textController.NextLine();
                         textController.AddEventText("You continue on without interacting with the potentially hostile ship.");
@@ -677,29 +678,28 @@ class EventChain {
                 return;
             }
             if (ship.armedValue <= 0.6) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     ship.shipCount = GetRandomInt(4, 21);
                     eventChain.AddEventToChain(new Event(), true);
-                    ;
                     textController.AddEventText("On the way to the next solar system your sensors detect a fleet of " + ship.shipCount + " " + ship.sizeDesc + " sized ships traveling through space. According to their energy signatures they are armed with a variety of " + ship.armedDesc + " weapon systems.");
-                    var observeFleet = textController.CreateButton("Observe fleet", eventChain.GetCurrentEvent(), function () {
+                    let observeFleet = textController.CreateButton("Observe fleet", eventChain.GetCurrentEvent(), function () {
                         scienceShip.GetCurrentEvent().HighlightButton(observeFleet, true);
                         eventChain.AddEventToChain(new Event(), true);
                         textController.AddEventText("You observe the fleets movements as they continue on. However you notice that a detachment of fighters seems to have launched from the fleet towards your ship. Your computer blares a warning that they are armed and will come into range shortly.");
-                        var communicate2 = textController.CreateButton("Communicate", eventChain.GetCurrentEvent(), function () {
-                            scienceShip.GetCurrentEvent().HighlightButton(communicate2, true);
+                        let communicate = textController.CreateButton("Communicate", eventChain.GetCurrentEvent(), function () {
+                            scienceShip.GetCurrentEvent().HighlightButton(communicate, true);
                             eventChain.AddEventToChain(new Event(), true);
                             textController.AddEventText("You attempt to communicate with the fleet and the fleet tries to communicate back to you. However due to translation complications deciphering what they are saying is taking longer than usual and the fighters are closing in. Once they are close enough there won't be a chance for escape.");
-                            var continueCommunicate3 = textController.CreateButton("Continue communications", eventChain.GetCurrentEvent(), function () {
-                                scienceShip.GetCurrentEvent().HighlightButton(continueCommunicate3, true);
-                                var damage3 = GetRandomInt(10, 90);
+                            let continueCommunicate = textController.CreateButton("Continue communications", eventChain.GetCurrentEvent(), function () {
+                                scienceShip.GetCurrentEvent().HighlightButton(continueCommunicate, true);
+                                let damage = GetRandomInt(10, 90);
                                 textController.AddEventText("Just before you finish figuring out the code to communicate with the fleet the fighters enter weapon range. However they don't fire right away but close in a little more before unleashing their deadly weapons. Your ship takes a beating of " + damage + " damage.");
                                 if (scienceShip.AddShipIntegrity(-damage)) {
                                     textController.AddEventText("Escape!", function () {
-                                        var fuel3 = GetRandomInt(5, 11);
-                                        if (scienceShip.AddFuel(-fuel3)) {
-                                            textController.AddEventText("Your computers don't even wait for your orders, they gun the engines and what your ship lacks in armor, it makes up with speed. The weapons begin to tear through your hull, however miraculously your ship is still in one piece as your engines bring your ship out of range. The fighters run out out their fuel reserves and you make it away using up " + fuel3 + " units of fuel.");
+                                        let fuel = GetRandomInt(5, 11);
+                                        if (scienceShip.AddFuel(-fuel)) {
+                                            textController.AddEventText("Your computers don't even wait for your orders, they gun the engines and what your ship lacks in armor, it makes up with speed. The weapons begin to tear through your hull, however miraculously your ship is still in one piece as your engines bring your ship out of range. The fighters run out out their fuel reserves and you make it away using up " + fuel + " units of fuel.");
                                             textController.CreateContinueText("Lucky!", eventChain, function () {
                                                 textController.AddEventText("With the encounter over your ship runs a self diagnosis check. Integrity at " + scienceShip.GetShipIntegrity() + "%. Fuel at " + scienceShip.GetFuel() + ".");
                                                 scienceShip.GetCurrentEventChain().EndEventChain();
@@ -718,35 +718,35 @@ class EventChain {
                                     scienceShip.EndGame("the swarm of fighters", eventChain);
                                 }
                             });
-                            var avoidFighters3 = textController.CreateButton("Avoid fighters", eventChain.GetCurrentEvent(), function () {
-                                scienceShip.GetCurrentEvent().HighlightButton(avoidFighters3, true);
+                            let avoidFighters = textController.CreateButton("Avoid fighters", eventChain.GetCurrentEvent(), function () {
+                                scienceShip.GetCurrentEvent().HighlightButton(avoidFighters, true);
                                 textController.AddEventText("You instruct your ship to cease communications and fire the engines. This is surely a trap.");
 
                                 textController.CreateContinueText("Fire Engines!", eventChain, function () {
-                                    var useFuel3 = GetRandomInt(4, 8);
-                                    if (scienceShip.AddFuel(-useFuel3)) {
-                                        textController.AddEventText("Your engines fire, outrunning the fighters. Forcing them to turn back. A close call. " + useFuel3 + " units of fuel were used in this maneuver.");
+                                    let useFuel = GetRandomInt(4, 8);
+                                    if (scienceShip.AddFuel(-useFuel)) {
+                                        textController.AddEventText("Your engines fire, outrunning the fighters. Forcing them to turn back. A close call. " + useFuel + " units of fuel were used in this maneuver.");
                                     } else {
                                         textController.AddEventText("Your engines fire, however they cut short due to a lack of fuel.")
                                         textController.CreateContinueText("Crap", eventChain, function () {
                                             scienceShip.DestroyShip();
                                             textController.AddEventText("The fighters swam you and your ship is blasted to pieces.");
-                                            textController.EndGame("the swarm of fighters", eventChain);
+                                            scienceShip.EndGame("the swarm of fighters", eventChain);
                                         })
                                     }
                                 });
                             });
-                            var continueOn3 = textController.CreateDefaultButton("Continue on", eventChain.GetCurrentEvent(), function () {
+                            let continueOn = textController.CreateDefaultButton("Continue on", eventChain.GetCurrentEvent(), function () {
                                 scienceShip.GetCurrentEvent().PassEvent();
-                                var damage3 = GetRandomInt(40, 60);
+                                let damage = GetRandomInt(40, 60);
                                 textController.AddEventText("You continue on as normal. However the fighters continue to close on you. Once they are in firing range their weapon systems begin to light your ship up. In a desperate attempt to escape your ship attempts to flee.");
                                 if (scienceShip.AddShipIntegrity(-damage)) {
                                     textController.NextLine();
-                                    textController.AddEventText("The weapons tear through your hull, however miraculously your ship is still in one piece. Leaving you with " + shipIntegrity + " ship integrity left.");
+                                    textController.AddEventText("The weapons tear through your hull, however miraculously your ship is still in one piece. Leaving you with " + scienceShip.shipIntegrity + " ship integrity left.");
                                     textController.CreateContinueText("Escape!", eventChain, function () {
-                                        var fuel3 = GetRandomInt(5, 11);
-                                        if (scienceShip.AddFuel(-fuel3)) {
-                                            textController.AddEventText("Your computers don't even wait for your orders, they gun the engines. what your ship lacks in armor, it makes up with speed. The fighters run out out their fuel reserves and you make it away using up " + fuel3 + " units of fuel.")
+                                        let fuel = GetRandomInt(5, 11);
+                                        if (scienceShip.AddFuel(-fuel)) {
+                                            textController.AddEventText("Your computers don't even wait for your orders, they gun the engines. what your ship lacks in armor, it makes up with speed. The fighters run out out their fuel reserves and you make it away using up " + fuel + " units of fuel.")
                                             textController.CreateContinueText("Phew!", eventChain, function () {
                                                 textController.AddEventText("With the encounter over your ship runs a self diagnosis check. Integrity at " + scienceShip.GetShipIntegrity() + "%. Fuel at " + scienceShip.GetShipFuel() + ".");
                                                 scienceShip.GetCurrentEventChain().EndEventChain();
@@ -754,32 +754,32 @@ class EventChain {
                                         } else {
                                             scienceShip.DestroyShip();
                                             textController.AddEventText("Your hull rips apart as the weapon systems of the fighters light up your ship. Little remains from your ship.");
-                                            textController.EndGame("the swarm of fighters", eventChain);
+                                            scienceShip.EndGame("the swarm of fighters", eventChain);
                                         }
                                     });
                                 } else {
                                     scienceShip.DestroyShip();
                                     textController.AddEventText("Your hull rips apart as the weapon systems of the fighters light up your ship. Little remains from your ship.");
-                                    textController.EndGame("the swarm of fighters", eventChain);
+                                    scienceShip.EndGame("the swarm of fighters", eventChain);
                                 }
                             });
                         });
                     });
-                    var scanFleet = textController.CreateButton("Scan fleet", eventChain.GetCurrentEvent(), function () {
+                    let scanFleet = textController.CreateButton("Scan fleet", eventChain.GetCurrentEvent(), function () {
                         alert("not implemented");
                     });
-                    var evadeFleet = textController.CreateButton("Evade fleet", eventChain.GetCurrentEvent(), function () {
+                    let evadeFleet = textController.CreateButton("Evade fleet", eventChain.GetCurrentEvent(), function () {
                         alert("not implemented");
                     });
-                    var continueOn = textController.CreateDefaultButton(continueText, eventChain.GetCurrentEvent(), function () {
+                    let continueOn = textController.CreateDefaultButton(continueText, eventChain.GetCurrentEvent(), function () {
                         alert("not implemented");
                     });
                 }
                 return;
             }
             if (ship.armedValue <= 100) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     textController.AddEventText("Generate random ship event with an attitude of " + ship.attitude + " and an armed value of " + ship.armedValue);
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 }
@@ -789,32 +789,32 @@ class EventChain {
         }
         if (ship.attitude <= -0.3) {
             if (ship.armedValue <= 0) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     textController.AddEventText("Generate random ship event with an attitude of " + ship.attitude + " and an armed value of " + ship.armedValue);
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 }
                 return;
             }
             if (ship.armedValue <= 0.3) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     textController.AddEventText("Generate random ship event with an attitude of " + ship.attitude + " and an armed value of " + ship.armedValue);
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 }
                 return;
             }
             if (ship.armedValue <= 0.6) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     textController.AddEventText("Generate random ship event with an attitude of " + ship.attitude + " and an armed value of " + ship.armedValue);
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 }
                 return;
             }
             if (ship.armedValue <= 100) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     textController.AddEventText("Generate random ship event with an attitude of " + ship.attitude + " and an armed value of " + ship.armedValue);
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 }
@@ -824,32 +824,32 @@ class EventChain {
         }
         if (ship.attitude <= 0.3) {
             if (ship.armedValue <= 0) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     textController.AddEventText("Generate random ship event with an attitude of " + ship.attitude + " and an armed value of " + ship.armedValue);
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 }
                 return;
             }
             if (ship.armedValue <= 0.3) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     textController.AddEventText("Generate random ship event with an attitude of " + ship.attitude + " and an armed value of " + ship.armedValue);
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 }
                 return;
             }
             if (ship.armedValue <= 0.6) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     textController.AddEventText("Generate random ship event with an attitude of " + ship.attitude + " and an armed value of " + ship.armedValue);
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 }
                 return;
             }
             if (ship.armedValue <= 100) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     textController.AddEventText("Generate random ship event with an attitude of " + ship.attitude + " and an armed value of " + ship.armedValue);
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 }
@@ -859,32 +859,32 @@ class EventChain {
         }
         if (ship.attitude <= 0.7) {
             if (ship.armedValue <= 0) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     textController.AddEventText("Generate random ship event with an attitude of " + ship.attitude + " and an armed value of " + ship.armedValue);
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 }
                 return;
             }
             if (ship.armedValue <= 0.3) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     textController.AddEventText("Generate random ship event with an attitude of " + ship.attitude + " and an armed value of " + ship.armedValue);
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 }
                 return;
             }
             if (ship.armedValue <= 0.6) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     textController.AddEventText("Generate random ship event with an attitude of " + ship.attitude + " and an armed value of " + ship.armedValue);
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 }
                 return;
             }
             if (ship.armedValue <= 100) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     textController.AddEventText("Generate random ship event with an attitude of " + ship.attitude + " and an armed value of " + ship.armedValue);
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 }
@@ -894,32 +894,32 @@ class EventChain {
         }
         if (ship.attitude <= 1) {
             if (ship.armedValue <= 0) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     textController.AddEventText("Generate random ship event with an attitude of " + ship.attitude + " and an armed value of " + ship.armedValue);
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 }
                 return;
             }
             if (ship.armedValue <= 0.3) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     textController.AddEventText("Generate random ship event with an attitude of " + ship.attitude + " and an armed value of " + ship.armedValue);
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 }
                 return;
             }
             if (ship.armedValue <= 0.6) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     textController.AddEventText("Generate random ship event with an attitude of " + ship.attitude + " and an armed value of " + ship.armedValue);
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 }
                 return;
             }
             if (ship.armedValue <= 100) {
-                var randInt2 = GetRandomInt(0, 1);
-                if (randInt2 == 0) {
+                let randInt = GetRandomInt(0, 1);
+                if (randInt === 0) {
                     textController.AddEventText("Generate random ship event with an attitude of " + ship.attitude + " and an armed value of " + ship.armedValue);
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 }
@@ -951,14 +951,14 @@ class Event {
     }
 
     DisplayEvent() {
-        for (var i = 0; i < this.buttons.length; i++) {
+        for (let i = 0; i < this.buttons.length; i++) {
             textController.storyElement.appendChild(this.buttons[i]);
         }
         textController.ScrollToBottom();
     }
 
     DisplayEventWithFunction(text) {
-        for (var i = 0; i < this.buttons.length; i++) {
+        for (let i = 0; i < this.buttons.length; i++) {
             textController.storyElement.appendChild(this.buttons[i]);
         }
         textController.exploreText.innerHTML = "| " + text + " |";
@@ -979,11 +979,11 @@ class Event {
     }
 
     PassEvent() {
-        if (scienceShip.GetCurrentEvent() != this) {
+        if (scienceShip.GetCurrentEvent() !== this) {
             alert("Trying to pass a non current event")
         }
         this.AbortEvent();
-        for (var i = 0; i < this.buttons.length; i++) {
+        for (let i = 0; i < this.buttons.length; i++) {
             if (this.buttons[i].classList.contains("normalButtonText")) {
                 this.buttons[i].classList.remove("normalButtonText");
                 this.buttons[i].classList.add("missedButtonText");
@@ -1001,7 +1001,7 @@ class Event {
     }
 
     AbortEvent() {
-        for (var i = 0; i < this.buttons.length; i++) {
+        for (let i = 0; i < this.buttons.length; i++) {
             this.buttons[i].abortController.abort();
         }
     }
@@ -1015,20 +1015,20 @@ class Event {
 class MajorTravelEventChain extends EventChain {
     static GenerateMajorTravelEventChain() {
         textController.AddLine();
-        var randInt = GetRandomInt(0, 11);
+        const randInt = GetRandomInt(0, 11);
         if (randInt <= 3) {
-            var randInt2 = GetRandomInt(0, 10);
-            if (randInt2 < 8) {
+            let randInt = GetRandomInt(0, 10);
+            if (randInt < 8) {
                 scienceShip.AddScience(GetRandomInt(2, 4));
-                var fuel = GetRandomInt(1, 3);
+                const fuel = GetRandomInt(1, 3);
                 scienceShip.AddFuel(-fuel);
                 textController.AddEventText("While traveling to " + scienceShip.GetNextSolarSystem().name + " you observe a black hole in the distance and send a simple probe into it.");
                 textController.ContinueOnMajorEvent();
                 return;
             }
-            if (randInt2 < 9) {
+            if (randInt < 9) {
                 scienceShip.AddScience(GetRandomInt(4, 13));
-                var newDays = GetRandomInt(3, 8);
+                const newDays = GetRandomInt(3, 8);
                 scienceShip.AddDays(newDays);
                 scienceShip.AddFuel(-newDays);
                 textController.AddEventText("While traveling to " + scienceShip.GetNextSolarSystem().name + " you pass by a black hole. The close encounter requires for you to spend " + newDays + " extra fuel and time avoiding it but you also obtain some data from it.");
@@ -1043,23 +1043,23 @@ class MajorTravelEventChain extends EventChain {
             return;
         }
         if (randInt <= 9) {
-            var randInt2 = GetRandomInt(0, 2);
-            if (randInt2 == 0) {
+            let randInt = GetRandomInt(0, 2);
+            if (randInt === 0) {
                 EventChain.GenerateShipEvent("Venturing to solar system " + scienceShip.GetNextSolarSystem().name, EventChain.GetContinueToNextText(scienceShip.GetNextSolarSystem().name), new MajorTravelEventChain(true));
             }
-            if (randInt2 == 1) {
+            if (randInt === 1) {
                 EventChain.GenerateShipEvent("While on route to " + scienceShip.GetNextSolarSystem().name, EventChain.GetContinueToNextText(scienceShip.GetNextSolarSystem().name), new MajorTravelEventChain(true));
             }
             return;
         }
-        var eventChain = new EventChain(true);
+        const eventChain = new EventChain(true);
         textController.AddEventText("It Seems that you have reached the end of the universe. It's time to head back to Earth.");
         scienceShip.AddScience(GetRandomInt(1, scienceShip.solarSystems.length));
         textController.CreateContinueText("End journey", eventChain, function () {
-            if (scienceShip.GetCurrentEvent() == eventChain.events[0]) {
+            if (scienceShip.GetCurrentEvent() === eventChain.events[0]) {
                 scienceShip.GetCurrentEvent().PassEvent();
                 textController.NextLine();
-                var fuelToUse = GetRandomInt(scienceShip.solarSystems.length, scienceShip.solarSystems.length * 2);
+                const fuelToUse = GetRandomInt(scienceShip.solarSystems.length, scienceShip.solarSystems.length * 2);
                 if (scienceShip.AddFuel(-fuelToUse)) {
                     textController.AddEventText("Your computers calculate that you have enough fuel to reach Earth.");
                     scienceShip.EndGame("the end of the galaxy", eventChain);
@@ -1082,11 +1082,11 @@ class MajorTravelEventChain extends EventChain {
 class MinorTravelEventChain extends EventChain {
     static GenerateMinorTravelEventChain(solarSystem, object) {
         object.goTowards();
-        var eventChain = new MinorTravelEventChain(true);
+        const eventChain = new MinorTravelEventChain(true);
         eventChain.nextObject = object
         scienceShip.AddFuel(-object.distance);
         scienceShip.AddDays(object.distance);
-        var randInt = GetRandomInt(-10, 1);
+        let randInt = GetRandomInt(-10, 1);
         randInt = 2;
         if (randInt < -11) {
             textController.NextLine();
@@ -1122,10 +1122,10 @@ class MinorTravelEventChain extends EventChain {
 
 class ObjectEventChain extends EventChain {
     static GenerateStarEventChain(star) {
-        var eventChain = new ObjectEventChain(true);
-        var randInt = GetRandomInt(-10, 2);
+        const eventChain = new ObjectEventChain(true);
+        const randInt = GetRandomInt(-10, 2);
         if (randInt <= 0) {
-            textController.AddEventText("You take the scans of " + star.name + " but find no anomalies and add it to your databanks.");
+            textController.AddEventText("You take the scans of " + star.name + " but find no anomalies and add it to your data banks.");
             scienceShip.GetCurrentEventChain().EndEventChain();
             return;
         }
@@ -1140,9 +1140,9 @@ class ObjectEventChain extends EventChain {
 
     static GeneratePlanetEventChain(planet) {
         textController.NextLine();
-        var eventChain = new ObjectEventChain(true);
-        if (planet.planetType == "GasGiant") {
-            var randInt = GetRandomInt(0, 5);
+        let eventChain = new ObjectEventChain(true);
+        if (planet.planetType === "GasGiant") {
+            let randInt = GetRandomInt(0, 5);
             if (randInt <= 3) {
                 scienceShip.AddFuel(GetRandomInt(8, 16));
                 textController.AddEventText("As you scan " + planet.name + " you find that you can convert some of the gasses into fuel.");
@@ -1151,46 +1151,44 @@ class ObjectEventChain extends EventChain {
             }
             if (randInt <= 4) {
                 eventChain.AddEventToChain(new Event(), true);
-                ;
                 scienceShip.AddFuel(GetRandomInt(8, 16));
                 textController.AddEventText("As you scan " + planet.name + " you find that the gas around the planet may have some interesting properties. Should you send a probe into it?");
-                var sendProbe = textController.CreateButton("Send Probe", eventChain.GetCurrentEvent(), function () {
+                let sendProbe = textController.CreateButton("Send Probe", eventChain.GetCurrentEvent(), function () {
                     scienceShip.GetCurrentEvent().HighlightButton(sendProbe, true);
-                    var randInt2 = GetRandomInt(0, 3);
-                    if (randInt2 <= 2) {
+                    let randInt = GetRandomInt(0, 3);
+                    if (randInt <= 2) {
                         textController.AddEventText("Sadly the anomaly was from a sensor malfunction. You repair the sensor and don't find any more anomalies on the planet.");
-                    } else if (randInt2 <= 3) {
+                    } else if (randInt <= 3) {
                         textController.AddEventText("Your scanners document the properties of the gas and find that it is identical to the air required to breath but exerts a lower force from air pressure. Using the gas instead of your current air mixture would increase the overall integrity of your ship. The extraction process will be risky but may be worth it.");
                         eventChain.AddEventToChain(new Event(), true);
-                        ;
-                        var extractGasses = textController.CreateButton("Extract gasses", eventChain.GetCurrentEvent(), function () {
+                        let extractGasses = textController.CreateButton("Extract gasses", eventChain.GetCurrentEvent(), function () {
                             scienceShip.GetCurrentEvent().HighlightButton(extractGasses, true);
-                            var fuelUsed2 = GetRandomInt(2, 6);
-                            if (scienceShip.UseFuel(fuelUsed2)) {
+                            let fuelUsed = GetRandomInt(2, 6);
+                            if (scienceShip.UseFuel(fuelUsed)) {
                                 textController.AddEventText("");
                             }
                             scienceShip.GetCurrentEventChain().EndEventChain();
                         });
-                        var logProperties = textController.CreateButton("Log properties", eventChain.GetCurrentEvent(), function () {
+                        let logProperties = textController.CreateButton("Log properties", eventChain.GetCurrentEvent(), function () {
                             scienceShip.GetCurrentEvent().HighlightButton(logProperties, true);
                             scienceShip.AddScience(GetRandomInt(9, 14));
                             textController.AddEventText("It would be too risky to collect the gas. Instead your computers log the properties of the gas and add it to the database.");
                             scienceShip.GetCurrentEventChain().EndEventChain();
                         });
-                        var alertTextButton = CreateDefaultButton("Continue on", eventChain.GetCurrentEvent(), function () {
+                        let alertTextButton = CreateDefaultButton("Continue on", eventChain.GetCurrentEvent(), function () {
                             scienceShip.GetCurrentEvent().PassEvent();
                             scienceShip.GetCurrentEventChain().EndEventChain();
                         });
                     }
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 });
-                var saveData = textController.CreateButton("Save the data", eventChain.GetCurrentEvent(), function () {
+                let saveData = textController.CreateButton("Save the data", eventChain.GetCurrentEvent(), function () {
                     scienceShip.GetCurrentEvent().HighlightButton(saveData, true);
                     scienceShip.AddScience(GetRandomInt(7, 14));
                     textController.AddEventText("The computers analyze the data as much as then can before you continue on.");
                     scienceShip.GetCurrentEventChain().EndEventChain();
                 });
-                var continueOn = CreateDefaultButton("ContinueOn", eventChain.GetCurrentEvent(), function () {
+                let continueOn = CreateDefaultButton("ContinueOn", eventChain.GetCurrentEvent(), function () {
                     scienceShip.GetCurrentEvent().PassEvent();
                     textController.AddEventText("You leave the anomaly without investigating farther.");
                     scienceShip.GetCurrentEventChain().EndEventChain();
@@ -1199,8 +1197,8 @@ class ObjectEventChain extends EventChain {
             }
             return;
         }
-        if (planet.planetType == "Gas") {
-            var randInt = GetRandomInt(0, 1);
+        if (planet.planetType === "Gas") {
+            let randInt = GetRandomInt(0, 1);
             if (randInt <= 1) {
                 scienceShip.AddFuel(GetRandomInt(8, 16));
                 textController.AddEventText("As you scan " + planet.name + " you find that you can convert some of the gasses into fuel.");
@@ -1210,24 +1208,24 @@ class ObjectEventChain extends EventChain {
             if (randInt <= 3) {
             }
         }
-        if (planet.planetType == "Rocky") {
+        if (planet.planetType === "Rocky") {
         }
-        if (planet.planetType == "Ice") {
+        if (planet.planetType === "Ice") {
         }
-        if (planet.planetType == "Terran") {
+        if (planet.planetType === "Terran") {
         }
-        if (planet.planetType == "Barren") {
+        if (planet.planetType === "Barren") {
         }
         textController.AddEventText("You arrive at " + planet.planetType + " and find that it is your average planet.");
         scienceShip.GetCurrentEventChain().EndEventChain();
     }
 
     static GenerateAsteroidEventChain(asteroid) {
-        var eventChain = new ObjectEventChain(true);
-        var randInt = GetRandomInt(-10, 1);
+        const eventChain = new ObjectEventChain(true);
+        const randInt = GetRandomInt(-10, 1);
         if (randInt <= 0) {
             textController.NextLine();
-            textController.AddEventText("You take scans of " + asteroid.name + " and add it to your databanks. Nothing unusual was found.");
+            textController.AddEventText("You take scans of " + asteroid.name + " and add it to your data banks. Nothing unusual was found.");
             scienceShip.GetCurrentEventChain().EndEventChain();
             return;
         }
@@ -1245,30 +1243,30 @@ class ObjectEventChain extends EventChain {
     }
 
     static GenerateCometEventChain(comet) {
-        var eventChain = new ObjectEventChain(true);
+        const eventChain = new ObjectEventChain(true);
         scienceShip.GetCurrentEventChain().EndEventChain();
         textController.AddEventText("Generating comet event");
         return;
     }
 
     static GenerateProbeReturnEvent(object) {
-        var returnProbe = document.createElement("button");
-        var continueObserving = document.createElement("button");
-        var newEvent = new Event([returnProbe, continueObserving]);
+        const returnProbe = document.createElement("button");
+        const continueObserving = document.createElement("button");
+        const newEvent = new Event([returnProbe, continueObserving]);
         scienceShip.SetCurrentEventChain(newEvent);
         returnProbe.innerText = "Return probe";
         returnProbe.addEventListener("click", function () {
             scienceShip.GetCurrentEvent().PassEvent();
             returnProbe.style.color = "green";
             scienceShip.AddFuel(-GetRandomInt(1, 2));
-            var eventText;
-            var randomNumber = GetRandomInt(0, 10);
+            let eventText;
+            const randomNumber = GetRandomInt(0, 10);
             if (randomNumber <= 7) {
                 eventText = document.createTextNode("The probe successfully returns from the " + object.description + " " + object.type + ". You refuel and continue on with your mission.");
 
-            } else if (randomNumber == 8) {
+            } else if (randomNumber === 8) {
                 scienceShip.AddScience(0, 3);
-                eventText = document.createTextNode("As your probe returns, it is hit by a microasteroid and loses all functionality. At least you got some data on it's collision.");
+                eventText = document.createTextNode("As your probe returns, it is hit by a micro asteroid and loses all functionality. At least you got some data on it's collision.");
             } else {
                 scienceShip.AddShipIntegrity(-GetRandomInt(4, 8));
                 eventText = document.createTextNode("As the probe nears the ship from the " + object.type + " it loses control and slams into the ship, destroying the probe and some of the ship in the process");
@@ -1305,7 +1303,7 @@ class TextController {
 
     UpdateUIText() {
         this.topBarText.innerHTML = "Crew: " + scienceShip.GetCrew() + " | ShipIntegrity: " + scienceShip.GetShipIntegrity() + "% | ShipFuel: " + scienceShip.GetFuel() + "/" + scienceShip.GetMaxFuel() + " | Science: " + scienceShip.GetScience() + " | Day: " + scienceShip.GetDays();
-        var place = "";
+        let place = "";
         if (scienceShip.GetCurrentSolarSystem() != null) {
             place = scienceShip.GetCurrentSolarSystem().name;
         } else {
@@ -1444,5 +1442,5 @@ function GetRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
 
-var scienceShip = new ScienceShip();
-var textController = new TextController();
+let scienceShip = new ScienceShip();
+let textController = new TextController();
